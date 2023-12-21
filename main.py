@@ -21,7 +21,7 @@ def draw(player, elapsed_time, enemies):
     pygame.draw.rect(WINDOW, "red", player)
 
     for enemy in enemies:
-        pygame.draw.rect(WINDOW, "black", enemy)
+        pygame.draw.rect(WINDOW, "white", enemy)
 
     pygame.display.update()
 
