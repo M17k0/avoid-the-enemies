@@ -3,7 +3,7 @@ import time
 
 from src.player import Player
 from src.enemy import Enemy
-from src.config import WIDTH, HEIGHT, GAME_NAME
+from src.config import WIDTH, HEIGHT, GAME_NAME, FPS
 
 pygame.init()
 WINDOW = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -11,6 +11,9 @@ pygame.display.set_caption(GAME_NAME)
 
 BACKGROUND = pygame.image.load("./assets/background.png")
 FONT = pygame.font.SysFont("arial", 30)
+
+pygame.mixer.music.load("./assets/music.mp3")
+pygame.mixer.music.play(loops=-1, start=0)
 
 def draw(player, elapsed_time, enemies):
     WINDOW.blit(BACKGROUND, (0, 0))
@@ -21,7 +24,7 @@ def draw(player, elapsed_time, enemies):
     pygame.draw.rect(WINDOW, "red", player)
 
     for enemy in enemies:
-        pygame.draw.rect(WINDOW, "white", enemy)
+        pygame.draw.rect(WINDOW, "black", enemy)
 
     pygame.display.update()
 
@@ -40,7 +43,7 @@ def main():
 
     while run:
         # clock tick - returns milisocends since the last tick
-        time_after_last_enemy += clock.tick(60)
+        time_after_last_enemy += clock.tick(FPS)
         elapsed_time = time.time() - start_time
 
         # Add enemies
