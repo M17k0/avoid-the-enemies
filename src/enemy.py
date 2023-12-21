@@ -15,36 +15,49 @@ class Enemy:
         self.direction = direction
 
     def update(self):
-        if (self.direction == directions[1]): # up
+        if (self.direction == "up"):
             self.rect.y -= self.VELLOCITY
-        elif (self.direction == directions[2]): # down
+        elif (self.direction == "down"):
             self.rect.y += self.VELLOCITY
-        elif (self.direction == directions[3]): # right
+        elif (self.direction == "right"):
             self.rect.x += self.VELLOCITY
-        elif (self.direction == directions[4]): # left
+        elif (self.direction == "left"):
             self.rect.x -= self.VELLOCITY
 
     def should_remove(self):
-        
-
+        if (self.direction == "up"):
+            if self.rect.y < 0:
+                return True
+        elif (self.direction == "down"):
+            if self.rect.y > HEIGHT:
+                return True
+        elif (self.direction == "right"):
+            if self.rect.x > WIDTH:
+                return True
+        elif (self.direction == "left"):
+            if self.rect.x < 0:
+                return True
 
         return False
+
+    def hit_player(self, player):
+        return self.rect.colliderect(player.rect)
 
     @staticmethod
     def create_enemy_by_direction(enemy_direction):
         direction = directions[enemy_direction] 
         enemy_x = enemy_y = 0
 
-        if (direction == directions[1]): # up
+        if (direction == "up"):
             enemy_x = random.randint(0, WIDTH - Enemy.WIDTH)
             enemy_y = HEIGHT
-        elif (direction == directions[2]): # down
+        elif (direction == "down"):
             enemy_x = random.randint(0, WIDTH - Enemy.WIDTH)
             enemy_y = -Enemy.WIDTH
-        elif (direction == directions[3]): # right
+        elif (direction == "right"):
             enemy_x = -Enemy.WIDTH
             enemy_y = random.randint(0, HEIGHT - Enemy.HEIGHT)
-        elif(direction == directions[4]): # left
+        elif(direction == "left"):
             enemy_x = WIDTH + Enemy.WIDTH
             enemy_y = random.randint(0, HEIGHT - Enemy.HEIGHT)
 
@@ -69,9 +82,10 @@ class Enemy:
         for enemy in enemies[:]:
             enemy.update()
             
-            if enemy.rect.y > HEIGHT:
+            if (enemy.should_remove()):
                 enemies.remove(enemy)
-            elif enemy.rect.y + HEIGHT >= player.rect.y and enemy.rect.colliderect(player):
+
+            if (enemy.hit_player(player)):
                 enemies.remove(enemy)
                 is_hit = True
                 break
