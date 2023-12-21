@@ -43,6 +43,7 @@ def main():
         time_after_last_enemy += clock.tick(60)
         elapsed_time = time.time() - start_time
 
+        # Add enemies
         if time_after_last_enemy > add_enemy_after:
             time_after_last_enemy, add_enemy_after = Enemy.add_enemies(enemies, time_after_last_enemy, add_enemy_after)
 
@@ -55,14 +56,7 @@ def main():
         keys = pygame.key.get_pressed()
         player.handle_movement(keys)
 
-        for enemy in enemies[:]:
-            enemy.y += Enemy.VELLOCITY
-            if enemy.y > HEIGHT:
-                enemies.remove(enemy)
-            elif enemy.y + Enemy.HEIGHT >= player.rect.y and enemy.colliderect(player):
-                enemies.remove(enemy)
-                hit = True
-                break
+        hit = Enemy.move_enemies(enemies, player)
 
         if hit:
             text = FONT.render("You lose", 1, (0, 0, 0))
