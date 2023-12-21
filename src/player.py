@@ -8,7 +8,9 @@ class Player:
     PLAYER_VELLOCITY = 5
 
     def __init__(self):
-        self.rect = pygame.Rect(WIDTH / 2 - self.PLAYER_WIDTH / 2, HEIGHT / 2 - self.PLAYER_HEIGHT / 2, self.PLAYER_WIDTH, self.PLAYER_HEIGHT)
+        self.image = pygame.image.load("./assets/player.jpg")
+        self.image = pygame.transform.scale(self.image, (self.PLAYER_WIDTH, self.PLAYER_HEIGHT))
+        self.rect = self.image.get_rect(center=(WIDTH / 2, HEIGHT / 2))
 
     def handle_movement(self, keys):
         if keys[pygame.K_LEFT] and self.rect.x - self.PLAYER_VELLOCITY >= 0:
@@ -21,4 +23,4 @@ class Player:
             self.rect.y += self.PLAYER_VELLOCITY
 
     def draw_player(self, screen):  
-        pygame.draw.rect(screen, "red", self.rect)
+        screen.blit(self.image, self.rect)

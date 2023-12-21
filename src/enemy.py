@@ -65,16 +65,11 @@ class Enemy:
         return enemy
 
     @staticmethod
-    def add_enemies(enemies, time_after_last_enemy, add_enemy_after):
+    def add_enemies(enemies):
         for _ in range(3):
             enemy_direction = random.randint(1, 4)
             enemy = Enemy.create_enemy_by_direction(enemy_direction)
             enemies.append(enemy)
-
-        add_enemy_after = max(200, add_enemy_after - 50)
-        time_after_last_enemy = 0
-
-        return time_after_last_enemy, add_enemy_after
     
     @staticmethod
     def move_enemies(enemies, player):
@@ -91,3 +86,6 @@ class Enemy:
                 break
         
         return is_hit
+    
+    def draw_enemy(self, screen):
+        pygame.draw.rect(screen, "black", self.rect)
