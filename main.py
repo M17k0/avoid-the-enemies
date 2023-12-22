@@ -15,8 +15,8 @@ pygame.display.set_caption(GAME_NAME)
 BACKGROUND = pygame.image.load(BACKGROUND_IMAGE)
 FONT = pygame.font.SysFont("arial", 30)
 
-# pygame.mixer.music.load(MUSIC)
-# pygame.mixer.music.play(loops=-1, start=0)
+pygame.mixer.music.load(MUSIC)
+pygame.mixer.music.play(loops=-1, start=0)
 
 def draw(player, elapsed_time, enemies):
     WINDOW.blit(BACKGROUND, (0, 0))
