@@ -36,16 +36,23 @@ def main():
     clock = pygame.time.Clock()
     start_time = time.time()
     elapsed_time = 0
-    finish_time = 0
 
     add_enemy_after = 2000
     time_after_last_enemy = 0
     enemies = []
     hit = False
 
+    time_to_speed_up = 0
     while run:
-        time_after_last_enemy += clock.tick(FPS)
+        milliseconds = clock.tick(FPS)
+        time_after_last_enemy += milliseconds
+        time_to_speed_up += milliseconds
+
         elapsed_time = time.time() - start_time
+
+        if time_to_speed_up >= 15_000:
+            player.speed_up()
+            time_to_speed_up = 0
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -58,7 +65,7 @@ def main():
         if time_after_last_enemy > add_enemy_after:
             Enemy.add_enemies(enemies)
             time_after_last_enemy = 0
-            add_enemy_after = max(200, add_enemy_after - 50)
+            add_enemy_after = max(350, add_enemy_after - 50)
 
         hit = Enemy.move_enemies(enemies, player)
 
