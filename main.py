@@ -1,10 +1,12 @@
 import pygame
 import time
+from datetime import datetime
 
 from src.player import Player
 from src.enemy import Enemy
 from src.config import WIDTH, HEIGHT, GAME_NAME, FPS
 from src.config import BACKGROUND_IMAGE, MUSIC
+from src.highscore import write_highscore
 
 pygame.init()
 WINDOW = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -13,8 +15,8 @@ pygame.display.set_caption(GAME_NAME)
 BACKGROUND = pygame.image.load(BACKGROUND_IMAGE)
 FONT = pygame.font.SysFont("arial", 30)
 
-pygame.mixer.music.load(MUSIC)
-pygame.mixer.music.play(loops=-1, start=0)
+# pygame.mixer.music.load(MUSIC)
+# pygame.mixer.music.play(loops=-1, start=0)
 
 def draw(player, elapsed_time, enemies):
     WINDOW.blit(BACKGROUND, (0, 0))
@@ -36,6 +38,7 @@ def main():
     clock = pygame.time.Clock()
     start_time = time.time()
     elapsed_time = 0
+    finished_time = 0
 
     add_enemy_after = 2000
     time_after_last_enemy = 0
@@ -70,7 +73,11 @@ def main():
         hit = Enemy.move_enemies(enemies, player)
 
         if hit:
-            text = FONT.render("You lose", 1, "white")
+            if write_highscore(round(elapsed_time), datetime.today()):
+                text = FONT.render(f"Game over, New highscore: {round(elapsed_time)}s", 1, "red")
+            else:
+                text = FONT.render("Game over", 1, "red")
+                
             WINDOW.blit(text, (WIDTH / 2 - text.get_width() / 2, HEIGHT / 2 - text.get_height() / 2))
             pygame.display.update()
             pygame.time.delay(5_000)

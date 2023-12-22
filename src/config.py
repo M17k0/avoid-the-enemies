@@ -6,3 +6,5 @@ HEIGHT = 800
 
 BACKGROUND_IMAGE = "./assets/background.png"
 MUSIC = "./assets/music.mp3"
+
+HIGHSCORE_FILE = "highscore.txt"
