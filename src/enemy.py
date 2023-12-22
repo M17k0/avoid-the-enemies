@@ -13,6 +13,8 @@ class Enemy:
     def __init__(self, x, y, direction="down"):
         self.rect = pygame.Rect(x, y, self.WIDTH, self.HEIGHT)
         self.direction = direction
+        self.image = pygame.image.load("./assets/enemy.jpg")
+        self.image = pygame.transform.scale(self.image, (self.WIDTH, self.HEIGHT))
 
     def update(self):
         if (self.direction == "up"):
@@ -42,6 +44,10 @@ class Enemy:
 
     def hit_player(self, player):
         return self.rect.colliderect(player.rect)
+
+    def draw_enemy(self, screen):
+        screen.blit(self.image, self.rect)
+        # pygame.draw.rect(screen, "black", self.rect)
 
     @staticmethod
     def create_enemy_by_direction(enemy_direction):
@@ -86,6 +92,3 @@ class Enemy:
                 break
         
         return is_hit
-    
-    def draw_enemy(self, screen):
-        pygame.draw.rect(screen, "black", self.rect)
